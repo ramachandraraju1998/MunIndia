@@ -40,7 +40,7 @@ public class ScanInput extends AppCompatActivity {
         setContentView(R.layout.scan_input);
 
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = df.format(c);
 
         date=findViewById(R.id.date);
