@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
+
     <RelativeLayout
         android:id="@+id/rl_one_login"
         android:layout_width="match_parent"
@@ -41,6 +42,8 @@
 
     </RelativeLayout>
 
+
+
     <LinearLayout
         android:id="@+id/lin_card"
         android:layout_width="match_parent"
@@ -64,19 +67,18 @@
             <LinearLayout
                 android:layout_width="338dp"
                 android:layout_height="347dp"
-                android:layout_marginLeft="15dp"
+
                 android:layout_marginTop="10dp"
-
-
-
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:layout_gravity="center"
                     android:id="@+id/simpleTextInput"
                     android:layout_width="250dp"
                     android:layout_height="59dp"
-                    android:layout_marginStart="20dp"
+
                     android:layout_marginTop="40dp"
                     android:background="@null">
 
@@ -93,10 +95,11 @@
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:layout_gravity="center"
                     android:id="@+id/simpleTextInpu"
                     android:layout_width="250dp"
                     android:layout_height="56dp"
-                    android:layout_marginStart="20dp"
+
                     android:layout_marginTop="20dp"
                     android:background="@null">
 
@@ -116,32 +119,35 @@
                     android:id="@+id/checkbox"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="80dp"
+
                     android:layout_marginTop="5dp"
-                    android:text="Remember" />
+                    android:text="Remember"
+                    android:layout_gravity="center"/>
 
 
                 <TextView
                     android:id="@+id/forgot"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:layout_marginStart="85dp"
+
                     android:layout_marginTop="15dp"
                     android:clickable="true"
                     android:text="Forgot Password?"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
 
                 <Button
                     android:id="@+id/login"
                     android:layout_width="200dp"
                     android:layout_height="45dp"
-                    android:layout_marginStart="50dp"
+
                     android:layout_marginTop="15dp"
                     android:background="@drawable/loginbtn"
                     android:gravity="center"
                     android:text="@string/login"
                     android:textAllCaps="false"
-                    android:textColor="#fff" />
+                    android:textColor="#fff"
+                    android:layout_gravity="center"/>
 
 
             </LinearLayout>
@@ -150,6 +156,7 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
+
 
 
 </RelativeLayout>

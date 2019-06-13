@@ -91,6 +91,8 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
                 break;
             case R.id.scaninput:
+                Intent scaninput = new Intent(Dashboard.this,ScanInput.class);
+                startActivity(scaninput);
                 vibrate();
 
                 break;

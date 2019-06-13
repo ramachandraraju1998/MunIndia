@@ -2,7 +2,6 @@
     <string name="app_name">MunIndia</string>
 
 
-
     <!--data-->
 
     <string name="splash">MUN INDIA</string>
@@ -10,10 +9,6 @@
     <string name="login">Login</string>
     <string name="hintusername">Enter Your Name</string>
     <string name="hintpassword">Enter Your password</string>
-
-
-
-
 
 
 </resources>

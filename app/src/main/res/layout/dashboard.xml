@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Dashboard"
+    android:background="@drawable/bgg"
     >
 
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+
     android:orientation="vertical"
     >
     <TextView

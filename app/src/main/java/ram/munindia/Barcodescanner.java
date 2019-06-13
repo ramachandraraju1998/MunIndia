@@ -24,7 +24,13 @@ public class Barcodescanner extends AppCompatActivity implements ZBarScannerView
         setContentView(mScannerView);                // Set the scanner view as the content view
        click = getIntent().getStringExtra("click");
 
-        BtWeight.barcodenumber.setText("");
+       //conditions
+if(click.equals("scanning_qrcode")) {
+    BtWeight.barcodenumber.setText("");
+
+}
+
+//
     }
 
     @Override
@@ -58,7 +64,7 @@ public class Barcodescanner extends AppCompatActivity implements ZBarScannerView
         pd.show();
 
 
-
+//conditions
 if(click.equals("scanning_qrcode")) {
 
     BtWeight.barcodenumber.setText(result.getContents());
@@ -71,10 +77,13 @@ if(click.equals("scanning_qrcode")) {
 }else if(click.equals("cartonbarcodescan")){
     RmLocation.cartonbarcodenumber.setText(result.getContents());
 
+}else if(click.equals("scannerinput")){
+    ScanInput.barcodenumber.setText(result.getContents());
+
 }
 
 
-
+//
         pd.dismiss();
             onBackPressed();
 

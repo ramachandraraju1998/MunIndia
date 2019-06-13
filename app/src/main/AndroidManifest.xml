@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -18,7 +19,8 @@
         android:roundIcon="@drawable/mun"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RmLocation"></activity>
+        <activity android:name=".ScanInput"></activity>
+        <activity android:name=".RmLocation" />
         <activity android:name=".BtWeight" />
         <activity android:name=".Login" />
         <activity android:name=".Dashboard" />
