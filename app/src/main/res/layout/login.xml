@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:id="@+id/rl_one_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/v_one_login"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#1CA3FC" />
+
+        <RelativeLayout
+            android:id="@+id/rl_two_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/tv_one_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:visibility="visible">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_one_login"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="15dp"
+            android:elevation="10dp"
+            app:cardBackgroundColor="#fcfcfc"
+            app:cardCornerRadius="10dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false"
+            card_view:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="338dp"
+                android:layout_height="347dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+
+
+
+                android:orientation="vertical">
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/simpleTextInput"
+                    android:layout_width="250dp"
+                    android:layout_height="59dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@null">
+
+                    <EditText
+                        android:id="@+id/username"
+                        android:layout_width="309dp"
+                        android:layout_height="43dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:hint="Enter Your Name"
+                        android:maxLength="20" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/simpleTextInpu"
+                    android:layout_width="250dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@null">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="309dp"
+                        android:layout_height="43dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+
+                        android:hint="Enter Your password"
+
+                        android:inputType="textPassword" />
+                </android.support.design.widget.TextInputLayout>
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Remember" />
+
+
+                <TextView
+                    android:id="@+id/forgot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="85dp"
+                    android:layout_marginTop="15dp"
+                    android:clickable="true"
+                    android:text="Forgot Password?"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/loginbtn"
+                    android:gravity="center"
+                    android:text="@string/login"
+                    android:textAllCaps="false"
+                    android:textColor="#fff" />
+
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
