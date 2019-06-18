@@ -28,6 +28,9 @@ public class Barcodescanner extends AppCompatActivity implements ZBarScannerView
 if(click.equals("scanning_qrcode")) {
     BtWeight.barcodenumber.setText("");
 
+}else if(click.equals("scannerinput")){
+    ScanInput.barcodenumberscaninput.setText(" ");
+
 }
 
 //
@@ -78,7 +81,14 @@ if(click.equals("scanning_qrcode")) {
     RmLocation.cartonbarcodenumber.setText(result.getContents());
 
 }else if(click.equals("scannerinput")){
-    ScanInput.barcodenumber.setText(result.getContents());
+    ScanInput.barcodenumberscaninput.setText(result.getContents());
+
+}else if(click.equals("fglocationbarcodescan")){
+    FgLocation.fglocationbarcodenumber.setText(result.getContents());
+
+
+}else if(click.equals("fgcartonbarcodescan")){
+    FgLocation.fgcartonbarcodenumber.setText(result.getContents());
 
 }
 

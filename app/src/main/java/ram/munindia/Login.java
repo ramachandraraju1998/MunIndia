@@ -47,11 +47,11 @@ public class Login extends AppCompatActivity  {
 
     private void login() {
 
-        String us= username.getText().toString();
-        String ps= password.getText().toString();
-
-        if(!us.equals("") || !ps.equals("")) {
-            if (us.equals("abcd") && ps.equals("1234")){
+//        String us= username.getText().toString();
+//        String ps= password.getText().toString();
+//
+//        if(!us.equals("") || !ps.equals("")) {
+//            if (us.equals("abcd") && ps.equals("1234")){
 
                 pd = new ProgressDialog(Login.this);
                 pd.setMessage("Validating ..");
@@ -68,16 +68,16 @@ public class Login extends AppCompatActivity  {
                         pd.dismiss();
                         startActivity(i);
                     }
-                }, 2000);
-
-            }else{
-                Toast.makeText(Login.this,"Please enter Correct Detais",Toast.LENGTH_LONG).show();
-            }
-
-        }else{
-
-            Toast.makeText(Login.this,"Please enter Username and Password",Toast.LENGTH_LONG).show();
-
-        }
+                }, 1000);
+//
+//            }else{
+//                Toast.makeText(Login.this,"Please enter Correct Detais",Toast.LENGTH_LONG).show();
+//            }
+//
+//        }else{
+//
+//            Toast.makeText(Login.this,"Please enter Username and Password",Toast.LENGTH_LONG).show();
+//
+//        }
     }
 }

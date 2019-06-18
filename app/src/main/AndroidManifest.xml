@@ -19,7 +19,9 @@
         android:roundIcon="@drawable/mun"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScanInput"></activity>
+        <activity android:name=".Dispatch"></activity>
+        <activity android:name=".FgLocation" />
+        <activity android:name=".ScanInput" />
         <activity android:name=".RmLocation" />
         <activity android:name=".BtWeight" />
         <activity android:name=".Login" />

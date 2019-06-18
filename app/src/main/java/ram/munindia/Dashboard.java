@@ -13,7 +13,7 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
-CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgscan,dispatch;
+CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgscan,dispatch,dispenserlocation,logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,7 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
                 // return;
             }
         }
-
+//dispenser location
         grnapproval=findViewById(R.id.grnapproval);
         rmdashboard=findViewById(R.id.rmdashboard);
         btweighing=findViewById(R.id.btweighing);
@@ -43,6 +43,9 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
         fgloaction=findViewById(R.id.fgloaction);
         fgscan=findViewById(R.id.fgscan);
         dispatch=findViewById(R.id.dispatch);
+        dispenserlocation=findViewById(R.id.dispenserlocation);
+        logout=findViewById(R.id.logout);
+
 
         grnapproval.setOnClickListener(this);
         rmdashboard.setOnClickListener(this);
@@ -52,6 +55,9 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
         fgloaction.setOnClickListener(this);
         fgscan.setOnClickListener(this);
         dispatch.setOnClickListener(this);
+        dispenserlocation.setOnClickListener(this);
+        logout.setOnClickListener(this);
+
 
 
     }
@@ -97,6 +103,8 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
                 break;
             case R.id.fgloaction:
+                Intent fglocation = new Intent(Dashboard.this,FgLocation.class);
+                startActivity(fglocation);
                 vibrate();
 
                 break;
@@ -105,10 +113,23 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
                 break;
             case R.id.dispatch:
+                Intent dispatch = new Intent(Dashboard.this,Dispatch.class);
+                startActivity(dispatch);
+                vibrate();
+
+                break;
+            case R.id.dispenserlocation:
+
+
                 vibrate();
 
                 break;
 
+            case R.id.logout:
+
+                        vibrate();
+
+                    break;
 
         }
     }
