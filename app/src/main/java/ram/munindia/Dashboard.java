@@ -119,13 +119,18 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
                 break;
             case R.id.dispenserlocation:
-
+                Intent dispenserlocation = new Intent(Dashboard.this,DispencerList.class);
+                startActivity(dispenserlocation);
 
                 vibrate();
 
                 break;
 
             case R.id.logout:
+
+                Intent logout = new Intent(Dashboard.this,MainActivity.class);
+                logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logout);
 
                         vibrate();
 

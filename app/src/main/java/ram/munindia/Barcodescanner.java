@@ -90,6 +90,13 @@ if(click.equals("scanning_qrcode")) {
 }else if(click.equals("fgcartonbarcodescan")){
     FgLocation.fgcartonbarcodenumber.setText(result.getContents());
 
+}else if(click.equals("dislocationbarcodescan")){
+    DispencerList.dislocationbarcodenumber.setText(result.getContents());
+
+
+}else if(click.equals("discartonbarcodescan")){
+    DispencerList.discartonbarcodenumber.setText(result.getContents());
+
 }
 
 

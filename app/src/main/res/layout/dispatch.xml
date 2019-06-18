@@ -68,7 +68,8 @@
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:id="@+id/linearlayoutlist"
-        android:visibility="visible">
+        android:visibility="visible"
+        >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

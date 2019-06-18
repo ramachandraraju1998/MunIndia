@@ -19,7 +19,8 @@
         android:roundIcon="@drawable/mun"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Dispatch"></activity>
+        <activity android:name=".DispencerList"></activity>
+        <activity android:name=".Dispatch" />
         <activity android:name=".FgLocation" />
         <activity android:name=".ScanInput" />
         <activity android:name=".RmLocation" />
