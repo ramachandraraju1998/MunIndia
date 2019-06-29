@@ -2,18 +2,22 @@ package ram.munindia;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 
+import ram.munindia.validations.SessionManager;
+
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
-CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgscan,dispatch,dispenserlocation,logout;
+CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgscan,dispatchlist,dispenserlocation,logout,dispatch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +46,11 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
         scaninput=findViewById(R.id.scaninput);
         fgloaction=findViewById(R.id.fgloaction);
         fgscan=findViewById(R.id.fgscan);
-        dispatch=findViewById(R.id.dispatch);
+        dispatchlist=findViewById(R.id.dispatchlist);
         dispenserlocation=findViewById(R.id.dispenserlocation);
         logout=findViewById(R.id.logout);
+        dispatch=findViewById(R.id.dispatch);
+
 
 
         grnapproval.setOnClickListener(this);
@@ -55,6 +61,7 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
         fgloaction.setOnClickListener(this);
         fgscan.setOnClickListener(this);
         dispatch.setOnClickListener(this);
+        dispatchlist.setOnClickListener(this);
         dispenserlocation.setOnClickListener(this);
         logout.setOnClickListener(this);
 
@@ -77,6 +84,9 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.grnapproval:
+                Intent grnapproval = new Intent(Dashboard.this,GRNapproval.class);
+                startActivity(grnapproval);
+
                 vibrate();
 
                 break;
@@ -112,9 +122,9 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
                 vibrate();
 
                 break;
-            case R.id.dispatch:
-                Intent dispatch = new Intent(Dashboard.this,Dispatch.class);
-                startActivity(dispatch);
+            case R.id.dispatchlist:
+                Intent dispatchlist = new Intent(Dashboard.this, DispatchList.class);
+                startActivity(dispatchlist);
                 vibrate();
 
                 break;
@@ -128,14 +138,50 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
             case R.id.logout:
 
-                Intent logout = new Intent(Dashboard.this,MainActivity.class);
-                logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(logout);
+                SessionManager sm = new SessionManager(Dashboard.this);
+                sm.logoutUser();
+
+//                Intent logout = new Intent(Dashboard.this,MainActivity.class);
+//                logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(logout);
 
                         vibrate();
 
                     break;
+            case R.id.dispatch:
+                Intent dispatch = new Intent(Dashboard.this, Dispatch.class);
+                startActivity(dispatch);
+                vibrate();
+
+                break;
+
+
 
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+
+                .setMessage("Do you want to Exit ")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        overridePendingTransition(R.anim.fadein, R.anim.fade_out);
+                        finishAffinity();
+                        System.exit(0);
+
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+
+
 }

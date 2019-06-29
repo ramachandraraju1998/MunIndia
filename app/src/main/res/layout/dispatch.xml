@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dispatch"
+    tools:context=".DispatchList"
     android:orientation="vertical">
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight=".5"
             android:gravity="center"
-            android:text="Dispatch"
+            android:text="Dispatch List"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -45,8 +45,13 @@
             android:src="@drawable/done" />
 
     </LinearLayout>
-
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <Spinner
         android:id="@+id/saleslist"
@@ -58,37 +63,150 @@
         android:background="@drawable/spinner"
         android:spinnerMode="dropdown" />
 
+    <Spinner
+        android:id="@+id/barcodetype"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/spinner"
+        android:spinnerMode="dropdown" />
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+android:visibility="gone"
+        android:textColorHint="@color/black">
+
+        <EditText
+            android:id="@+id/dispatchbarcodenumber"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border"
+            android:ellipsize="start"
+            android:focusable="false"
+            android:hint="Barcode Number"
+            android:inputType="text"
+            android:paddingLeft="10dp"
+            android:text=" "
+
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/black"
+            android:textColorHint="@color/black"
+            android:textColorLink="@color/black" />
+    </android.support.design.widget.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/scannerinput"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/border"
+        android:src="@drawable/scan" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/linearlayoutlist"
-        android:visibility="visible"
+        android:id="@+id/dataviewerlayout"
+        android:layout_gravity="center"
+        android:gravity="center"
+
         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/barcodeheading"
+                android:layout_width="140dp"
+                android:layout_marginLeft="15dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Barcode               |"
+                android:textStyle="bold"
+
+                android:textSize="19dp"/>
+            <TextView
+                android:id="@+id/sizeheading"
+                android:layout_width="70dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:text="Size    |"
+                android:textStyle="bold"
+
+                android:textSize="19dp"/>
+            <TextView
+                android:id="@+id/dataheading"
+                android:layout_width="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="left"
+                android:layout_height="wrap_content"
+                android:text="   Data"
+
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+
+                android:textSize="19dp"/>
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="TOTAL=100"
-            android:layout_marginRight="60dp"
-            android:layout_marginTop="10dp"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:id="@+id/total"/>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="- - - - - - - - - - - - - - -  - - - - -  - - - - - - - - - - - - - - - - - - - -  - - -- - - " />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
 
-        </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/barcodedataview"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:text="asdsadasda"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/sizedataview"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+
+                android:text="sad"
+                android:textSize="14dp" />
+            <TextView
+                android:id="@+id/dataview"
+                android:layout_width="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="left"
+                android:layout_height="wrap_content"
+                android:text="asdasd"
+
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:textSize="14dp"/>
+        </LinearLayout>
     </LinearLayout>
 
+</LinearLayout>
 
+        </ScrollView>
 </LinearLayout>

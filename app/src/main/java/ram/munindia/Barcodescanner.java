@@ -31,6 +31,9 @@ if(click.equals("scanning_qrcode")) {
 }else if(click.equals("scannerinput")){
     ScanInput.barcodenumberscaninput.setText(" ");
 
+}else if(click.equals("dispatch")){
+    Dispatch.dispatchbarcodenumber.setText(" ");
+
 }
 
 //
@@ -96,6 +99,9 @@ if(click.equals("scanning_qrcode")) {
 
 }else if(click.equals("discartonbarcodescan")){
     DispencerList.discartonbarcodenumber.setText(result.getContents());
+
+}else if(click.equals("dispatch")){
+    Dispatch.dispatchbarcodenumber.setText(result.getContents());
 
 }
 

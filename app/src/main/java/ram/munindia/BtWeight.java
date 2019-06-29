@@ -15,12 +15,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -52,7 +54,10 @@ public class BtWeight extends AppCompatActivity implements View.OnClickListener,
    static EditText weight;
    Button btscan;
 
-
+    SharedPreferences ss;
+//cardvie textviews
+    TextView txproductcode,txproductcategory,txproductsubcategory,txproducttype,txproductsubtype,txcolor,txsize,txqty,txbarcodenumber;
+CardView cardlayout;
     //bt
     protected static final String TAG = "TAG";
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -75,12 +80,25 @@ public class BtWeight extends AppCompatActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bt_weight);
 
-
+        ss = getSharedPreferences("Login", MODE_PRIVATE);
         pd = new ProgressDialog(BtWeight.this);
         pd.setMessage("Checking ..");
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setIndeterminate(true);
         pd.setCancelable(false);
+
+//card text
+        txproductcode = findViewById(R.id.txproductcode);
+        txproductcategory = findViewById(R.id.txproductcategory);
+        txproductsubcategory = findViewById(R.id.txproductsubcategory);
+        txproducttype = findViewById(R.id.txproducttype);
+        txproductsubtype = findViewById(R.id.txproductsubtype);
+        txcolor = findViewById(R.id.txcolor);
+        txsize = findViewById(R.id.txsize);
+        txqty = findViewById(R.id.txqty);
+        txbarcodenumber = findViewById(R.id.txbarcodenumber);
+        cardlayout = findViewById(R.id.cardlayout);
+
 
 
         scanning_qrcode=findViewById(R.id.scanning_qrcode);
@@ -106,8 +124,6 @@ public class BtWeight extends AppCompatActivity implements View.OnClickListener,
                 }
             }
         });
-
-
 
 
 
@@ -147,14 +163,16 @@ public class BtWeight extends AppCompatActivity implements View.OnClickListener,
 
                if(TextUtils.isEmpty(barcodenumber.getText().toString().trim()))
                {
-
-                   alert("please scan barcode",this);
+               //    Login.showDialog(BtWeight.this,"please scan barcode",true);
+                   Login.alert("please scan barcode",this);
 
                }else{
                    if(TextUtils.equals(weight.getText().toString(),"0") || TextUtils.isEmpty(weight.getText().toString().trim())) {
-                       alert("Weight should not be null",this);
+                       Login.alert("Weight should not be null",this);
+//                       Login.showDialog(BtWeight.this,"Weight should not be null",true);
 
                    }else{
+                       done();
                        Toast.makeText(BtWeight.this, "done", Toast.LENGTH_SHORT).show();
                    }
 
@@ -167,30 +185,134 @@ public class BtWeight extends AppCompatActivity implements View.OnClickListener,
         }
     }
 
+    private void done() {
+
+
+        OkHttpClient client = new OkHttpClient();
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("barcode", barcodenumber.getText().toString().trim())
+                .add("weight",weight.getText().toString().trim())
+                .build();
+
+        Request request = new Request.Builder()
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ss.getString("access_token", ""))
+                .url(Login.web+"index.php?r=restapi/api/update-barcode-weight")
+                .post(formBody)
+                .build();
+
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                Log.d("result", e.getMessage().toString());
+                e.printStackTrace();
+                pd.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        // Stuff that updates the UI
+                        Toast.makeText(BtWeight.this,"Please try again server busy at this moment", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
+                //  pd.dismiss();
+                if (!response.isSuccessful()) {
+                    pd.dismiss();
+                    Log.d("result", response.toString());
+                    System.out.println("token="+ ss.getString("access_token", ""));
+                    System.out.println("responce="+response.toString());
+                    Toast.makeText(BtWeight.this,"No Responce", Toast.LENGTH_LONG).show();
+                    throw new IOException("Unexpected code " + response);
+                } else {
+
+                    pd.dismiss();
+                    Log.d("result", response.toString());
+                    String responseBody = response.body().string();
+                    final JSONObject obj;
+                    try {
+                        obj= new JSONObject(responseBody);
+                        if(obj.getString("success").equals("true")){
+runOnUiThread(new Runnable() {
+    @Override
+    public void run() {
+        Login.showDialog(BtWeight.this,"Successfully updated Weight",true);
+    }
+});
+
+
+
+                        }else{
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Login.showDialog(BtWeight.this,"Failed to Update Weight",false);
+
+                                }
+                            });
+
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+    }
+
 
     @Override
     protected void onRestart() {
         super.onRestart();
 
-runOnUiThread(new Runnable() {
-    @Override
-    public void run() {
+
         if (barcodenumber.getText().toString().length() == 0) {
+
+
             Toast.makeText(BtWeight.this, "Failed", Toast.LENGTH_SHORT).show();
 
         }else{
 
             pd.show();
 
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    cardlayout.setVisibility(View.GONE);
+
+                }
+            });
+
+
+
+
             OkHttpClient client = new OkHttpClient();
 
+            RequestBody formBody = new FormBody.Builder()
+                    .add("barcode", barcodenumber.getText().toString().trim())
+                    .build();
 
             Request request = new Request.Builder()
                     .header("Accept", "application/json")
                     .header("Content-Type", "application/json")
-                    // .header("Authorization", "Bearer" + ss.getString("access_token", ""))
-                    .url("http://www.amock.io/api/sriramvarma/sad")
-                    .get()
+                    .header("Authorization", "Bearer " + ss.getString("access_token", ""))
+                    .url(Login.web+"index.php?r=restapi/api/get-barcode-details")
+                    .post(formBody)
                     .build();
 
 
@@ -199,13 +321,13 @@ runOnUiThread(new Runnable() {
                 public void onFailure(okhttp3.Call call, IOException e) {
                     Log.d("result", e.getMessage().toString());
                     e.printStackTrace();
-                    // pd.dismiss();
+                     pd.dismiss();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
                             // Stuff that updates the UI
-                            alert("Please try again server busy at this moment", BtWeight.this);
+                            Login.alert("Please try again server busy at this moment", BtWeight.this);
 
                         }
                     });
@@ -215,30 +337,68 @@ runOnUiThread(new Runnable() {
                 public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
                     //  pd.dismiss();
                     if (!response.isSuccessful()) {
-                        //  pd.dismiss();
+                         pd.dismiss();
                         Log.d("result", response.toString());
+                        System.out.println("token="+ ss.getString("access_token", ""));
+                        System.out.println("responce="+response.toString());
                         throw new IOException("Unexpected code " + response);
                     } else {
-                        pd.dismiss();
 
+                        pd.dismiss();
                         Log.d("result", response.toString());
                         String responseBody = response.body().string();
-                        System.out.println("Dadi " + responseBody.toString());
                         final JSONObject obj;
                         try {
                             obj= new JSONObject(responseBody);
-                            if(obj.getString("status").equals("true")){
-                                pd.dismiss();
+                            if(obj.getString("success").equals("true")){
+
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(BtWeight.this, "Success", Toast.LENGTH_SHORT).show();
+                                        cardlayout.setVisibility(View.VISIBLE);
+                                    }
+                                });
+
+
+
+                                JSONObject data = obj.getJSONObject("data");
+                                JSONObject product = data.getJSONObject("product");
+                                JSONObject productCategory = data.getJSONObject("productCategory");
+                                JSONObject productSubCategory = data.getJSONObject("productSubCategory");
+                                JSONObject productType = data.getJSONObject("productType");
+                                JSONObject productSubType = data.getJSONObject("productSubType");
+                                JSONObject color = data.getJSONObject("color");
+                                JSONObject size = data.getJSONObject("size");
+
+   // txproductcode,txproductcategory,txproductsubcategory,txproducttype,txproductsubtype,txcolor,txsize,txqty;
+                            txbarcodenumber.setText(data.getString("barcode_no"));
+                            txproductcode.setText(product.getString("product_code").toString());
+                            txproductcategory.setText(productCategory.getString("product_category").toString());
+                            txproductsubcategory.setText(productSubCategory.getString("sub_category").toString());
+                            txproducttype.setText(productType.getString("product_type").toString());
+                            txproductsubtype.setText(productSubType.getString("product_sub_type").toString());
+                            txcolor.setText(color.getString("color").toString());
+                            txsize.setText(size.getString("sizes").toString());
+                            txqty.setText(data.getString("qty").toString());
+
+
+
+
+                            }else{
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        barcodenumber.setText(" ");
+                                        cardlayout.setVisibility(View.GONE);
+                                        Toast.makeText(BtWeight.this,"Barcode not Valid",Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
 
 
                         } catch (JSONException e) {
+                            pd.dismiss();
                             e.printStackTrace();
                         }
                     }
@@ -247,40 +407,12 @@ runOnUiThread(new Runnable() {
 
 
         }
-    }
-});
 
 
 
 
 
     }
-
-    private void alert(String data, Context context){
-
-        final android.app.AlertDialog.Builder builder1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder1 = new android.app.AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog_Alert);
-        } else {
-            builder1 = new android.app.AlertDialog.Builder(context);
-        }
-       //builder1.setTitle(title);
-        builder1.setMessage(data);
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }
-
 
 
     private void scan() {
@@ -447,7 +579,7 @@ runOnUiThread(new Runnable() {
         InputStream inputStream = mBluetoothSocket.getInputStream();
         int length = inputStream.read(buffer);
         String text = new String(buffer, 0, length);
-        if(text.length()>=5) {
+        if(text.length()>5) {
             String tx = text.substring(1,6);
 
             //     int i = Integer.parseInt(tx);

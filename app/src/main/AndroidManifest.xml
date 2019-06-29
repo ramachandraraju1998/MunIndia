@@ -14,13 +14,17 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="keyboard|keyboardHidden|orientation"
         android:icon="@drawable/mun"
         android:label="@string/app_name"
         android:roundIcon="@drawable/mun"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DispencerList"></activity>
-        <activity android:name=".Dispatch" />
+        <activity android:name=".Dispatch"/>
+        <activity android:name=".DispatchList"/>
+        <activity android:name=".GRNapproval" />
+        <activity android:name=".DispencerList" />
         <activity android:name=".FgLocation" />
         <activity android:name=".ScanInput" />
         <activity android:name=".RmLocation" />

@@ -34,9 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:gravity="center"
-
             android:orientation="horizontal">
-
             <android.support.v7.widget.CardView
 
                 android:id="@+id/grnapproval"
@@ -424,7 +422,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/dispatch"
+            android:id="@+id/dispatchlist"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_rowWeight="1"
@@ -454,7 +452,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dispatch"
+                    android:text="DispatchList"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="10sp"
@@ -466,7 +464,7 @@
 
         <!-- Column 2 -->
         <android.support.v7.widget.CardView
-            android:id="@+id/logout"
+            android:id="@+id/dispatch"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_rowWeight="1"
@@ -491,12 +489,12 @@
                     android:layout_width="60dp"
                     android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/logout" />
+                    android:src="@drawable/dispatch" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LogOut"
+                    android:text="Dispatch"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -510,6 +508,63 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp"
+    android:gravity="center"
+
+    android:orientation="horizontal">
+
+
+    <!-- Column 2 -->
+    <android.support.v7.widget.CardView
+        android:id="@+id/logout"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:layout_gravity="center"
+
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logout" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LogOut"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:layout_gravity="center"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
 
 
 </LinearLayout>
