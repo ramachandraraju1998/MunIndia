@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -21,6 +26,17 @@ public class Barcodescanner extends AppCompatActivity implements ZBarScannerView
 
         super.onCreate(state);
         mScannerView = new ZBarScannerView(this);    // Programmatically initialize the scanner view
+        List<BarcodeFormat> myformat = new ArrayList<>();
+        myformat.add(BarcodeFormat.EAN13);
+        myformat.add(BarcodeFormat.EAN8);
+        myformat.add(BarcodeFormat.CODE39);
+        myformat.add(BarcodeFormat.CODE93);
+        myformat.add(BarcodeFormat.CODE128);
+
+        myformat.add(BarcodeFormat.CODABAR);
+
+
+        mScannerView.setFormats(myformat);
         setContentView(mScannerView);                // Set the scanner view as the content view
        click = getIntent().getStringExtra("click");
 
@@ -29,6 +45,7 @@ if(click.equals("scanning_qrcode")) {
     BtWeight.barcodenumber.setText("");
 
 }else if(click.equals("scannerinput")){
+    ScanInput.beforescaned="null";
     ScanInput.barcodenumberscaninput.setText(" ");
 
 }else if(click.equals("dispatch")){

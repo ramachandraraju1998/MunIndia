@@ -2,55 +2,62 @@ package ram.munindia.ModalandAdatpters;
 
 public class DispatchModel {
 
-    String productname,color,size,carton,picspercartton;
+    String saleorder,barcodenumber,prepareddate,dispatcheddate,qty,dispatchedstatus;
 
-    public DispatchModel(String productname, String color, String size, String carton, String picspercartton) {
-        this.productname = productname;
-        this.color = color;
-        this.size = size;
-        this.carton = carton;
-        this.picspercartton = picspercartton;
+    public DispatchModel(String saleorder, String barcodenumber, String prepareddate, String dispatcheddate, String qty, String dispatchedstatus) {
+        this.saleorder = saleorder;
+        this.barcodenumber = barcodenumber;
+        this.prepareddate = prepareddate;
+        this.dispatcheddate = dispatcheddate;
+        this.qty = qty;
+        this.dispatchedstatus = dispatchedstatus;
     }
 
-    public void setProductname(String productname) {
-        this.productname = productname;
+    public String getSaleorder() {
+        return saleorder;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setSaleorder(String saleorder) {
+        this.saleorder = saleorder;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public String getBarcodenumber() {
+        return barcodenumber;
     }
 
-    public void setCarton(String carton) {
-        this.carton = carton;
+    public void setBarcodenumber(String barcodenumber) {
+        this.barcodenumber = barcodenumber;
     }
 
-    public void setPicspercartton(String picspercartton) {
-        this.picspercartton = picspercartton;
+    public String getPrepareddate() {
+        return prepareddate;
     }
 
-    public String getProductname() {
-        return productname;
+    public void setPrepareddate(String prepareddate) {
+        this.prepareddate = prepareddate;
     }
 
-    public String getColor() {
-        return color;
+    public String getDispatcheddate() {
+        return dispatcheddate;
     }
 
-    public String getSize() {
-        return size;
+    public void setDispatcheddate(String dispatcheddate) {
+        this.dispatcheddate = dispatcheddate;
     }
 
-    public String getCarton() {
-        return carton;
+    public String getQty() {
+        return qty;
     }
 
-    public String getPicspercartton() {
-        return picspercartton;
+    public void setQty(String qty) {
+        this.qty = qty;
     }
 
+    public String getDispatchedstatus() {
+        return dispatchedstatus;
+    }
 
+    public void setDispatchedstatus(String dispatchedstatus) {
+        this.dispatchedstatus = dispatchedstatus;
+    }
 }

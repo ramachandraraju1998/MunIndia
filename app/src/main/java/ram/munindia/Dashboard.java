@@ -66,7 +66,6 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
         logout.setOnClickListener(this);
 
 
-
     }
     public void vibrate() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -86,7 +85,6 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
             case R.id.grnapproval:
                 Intent grnapproval = new Intent(Dashboard.this,GRNapproval.class);
                 startActivity(grnapproval);
-
                 vibrate();
 
                 break;
@@ -155,8 +153,6 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
                 break;
 
-
-
         }
     }
 
@@ -181,7 +177,6 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
                 .setNegativeButton("No", null)
                 .show();
     }
-
 
 
 }

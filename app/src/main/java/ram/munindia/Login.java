@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
     Button login;
     ProgressDialog pd;
     CheckBox checkbox;
-    static String web="http://demo.schemaxtech.in/mun_india/web/";
+    static String web="http://192.168.0.55/mun_india/web/";
     private SessionManager session;
     String us,ps;
 
@@ -157,11 +157,11 @@ public class Login extends AppCompatActivity {
                 // pd.dismiss();
 
                 if (!response.isSuccessful()) {
-                    pd.dismiss();
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            pd.dismiss();
                             Toast.makeText(getBaseContext(), "No Responce", Toast.LENGTH_SHORT).show();
 
                         }

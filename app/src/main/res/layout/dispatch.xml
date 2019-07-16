@@ -29,7 +29,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight=".5"
             android:gravity="center"
-            android:text="Dispatch List"
+            android:text="Dispatch"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -63,15 +63,6 @@
         android:background="@drawable/spinner"
         android:spinnerMode="dropdown" />
 
-    <Spinner
-        android:id="@+id/barcodetype"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/spinner"
-        android:spinnerMode="dropdown" />
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -35,11 +35,12 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Data> 
 
        // hospital.hcfc_master_id_i.setText(invoices.get(i).getHcf_master_id());
 
-        data.product.setText(list.get(i).getProductname());
-        data.color.setText(list.get(i).getColor());
-        data.size.setText(list.get(i).getSize());
-        data.carton.setText(list.get(i).getCarton());
-        data.pcspercarton.setText(list.get(i).getPicspercartton());
+        data.saleordernumber.setText(list.get(i).getSaleorder());
+        data.barcodenumber.setText(list.get(i).getBarcodenumber());
+        data.prepareddate.setText(list.get(i).getPrepareddate());
+        data.dispatcheddate.setText(list.get(i).getDispatcheddate());
+        data.qty.setText(list.get(i).getQty());
+        data.dispatchstatus.setText(list.get(i).getDispatchedstatus());
 
 
     }
@@ -52,16 +53,18 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Data> 
 
     public class Data extends RecyclerView.ViewHolder {
 
-TextView product,color,size,carton,pcspercarton;
+TextView saleordernumber,barcodenumber,prepareddate,dispatcheddate,qty,dispatchstatus;
 
         public Data(View itemView) {
             super(itemView);
 
-            product=itemView.findViewById(R.id.product);
-            color=itemView.findViewById(R.id.color);
-            size=itemView.findViewById(R.id.size);
-            carton=itemView.findViewById(R.id.carton);
-            pcspercarton=itemView.findViewById(R.id.pcspercarton);
+            saleordernumber=itemView.findViewById(R.id.saleordernumber);
+            barcodenumber=itemView.findViewById(R.id.barcodenumber);
+            prepareddate=itemView.findViewById(R.id.prepareddate);
+            dispatcheddate=itemView.findViewById(R.id.dispatcheddate);
+            qty=itemView.findViewById(R.id.qty);
+            dispatchstatus=itemView.findViewById(R.id.dispatchstatus);
+
 
 
         }

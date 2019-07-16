@@ -12,13 +12,13 @@
         android:layout_height="60dp"
         android:background="@drawable/coal"
         android:orientation="horizontal"
-        android:weightSum="2.5">
+        android:weightSum="2">
 
         <ImageView
             android:id="@+id/myimage_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.60"
             android:padding="10dp"
             android:src="@drawable/back"
             />
@@ -29,7 +29,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight=".5"
             android:gravity="center"
-            android:text="Dispatch"
+            android:text="Dispatch List"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -42,7 +42,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/done" />
+            android:src="@drawable/done"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -70,16 +71,17 @@
         android:id="@+id/linearlayoutlist"
         android:visibility="visible"
         >
+
         <TextView
+            android:id="@+id/total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="TOTAL=100"
-            android:layout_marginRight="55dp"
             android:layout_marginTop="10dp"
-            android:textSize="16dp"
+            android:layout_marginRight="55dp"
+            android:gravity="end"
+            android:text="TOTAL="
             android:textColor="@color/black"
-            android:id="@+id/total"/>
+            android:textSize="16dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"

@@ -49,7 +49,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+      >
         <LinearLayout
             android:id="@+id/listdata"
             android:layout_width="match_parent"
@@ -166,81 +166,33 @@
                 android:background="@drawable/border"
                 android:src="@drawable/scan" />
 
-            <!--<ram.munindia.NonScrollListView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/list" android:layout_gravity="top"-->
-                <!--android:layout_marginTop="5dp"/>-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/dataviewerlayout"
-    android:visibility="gone"
+    android:visibility="visible">
 
-   >
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginRight="5dp"
-        android:gravity="center"
-        android:text=" BarcodeNum           |      Size       |       Data   "
-
-        android:textSize="18dp"
-        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="- - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -  - - -- - - " />
-<!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:weightSum="3"-->
-    <!--&gt;-->
-            <!--<TextView-->
-                <!--android:id="@+id/barcodedataview"-->
-                <!--android:layout_width="170dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_height="wrap_content"-->
-<!--android:layout_weight="1"-->
-                <!--android:text="asdsadasda"-->
-                <!--android:textSize="14dp"/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/sizedataview"-->
-        <!--android:layout_width="90dp"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="sad"-->
-        <!--android:gravity="center"-->
-<!--android:layout_weight="1"-->
-        <!--android:textSize="14dp"/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/dataview"-->
-        <!--android:layout_width="90dp"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_gravity="left"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="asdasd"-->
-        <!--android:gravity="center"-->
-<!--android:layout_weight="1"-->
-        <!--android:layout_marginRight="5dp"-->
-        <!--android:textSize="14dp"/>-->
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="55dp"
+        android:gravity="end"
+        android:text="TOTAL="
+        android:textColor="@color/black"
+        android:textSize="16dp" />
 
-    <ram.munindia.NonScrollListView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/list" android:layout_gravity="top"
-    android:layout_marginTop="5dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
-      <!--</LinearLayout>-->
+    </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
  </LinearLayout>

@@ -99,8 +99,7 @@ CardView cardlayout;
         txbarcodenumber = findViewById(R.id.txbarcodenumber);
         cardlayout = findViewById(R.id.cardlayout);
 
-
-
+        
         scanning_qrcode=findViewById(R.id.scanning_qrcode);
         myimage_back=findViewById(R.id.myimage_back);
         done_img=findViewById(R.id.done_img);
@@ -229,7 +228,14 @@ CardView cardlayout;
                     Log.d("result", response.toString());
                     System.out.println("token="+ ss.getString("access_token", ""));
                     System.out.println("responce="+response.toString());
-                    Toast.makeText(BtWeight.this,"No Responce", Toast.LENGTH_LONG).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pd.dismiss();
+                            Toast.makeText(BtWeight.this, "No Responce", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                     throw new IOException("Unexpected code " + response);
                 } else {
 
@@ -278,7 +284,6 @@ runOnUiThread(new Runnable() {
     protected void onRestart() {
         super.onRestart();
 
-
         if (barcodenumber.getText().toString().length() == 0) {
 
 
@@ -297,8 +302,6 @@ runOnUiThread(new Runnable() {
 
                 }
             });
-
-
 
 
             OkHttpClient client = new OkHttpClient();
@@ -407,9 +410,6 @@ runOnUiThread(new Runnable() {
 
 
         }
-
-
-
 
 
     }
