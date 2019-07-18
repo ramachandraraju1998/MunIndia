@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
     Button login;
     ProgressDialog pd;
     CheckBox checkbox;
-    static String web="http://192.168.0.55/mun_india/web/";
+    static String web="http://192.168.0.8/mun_india/web/";
     private SessionManager session;
     String us,ps;
 

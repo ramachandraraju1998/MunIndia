@@ -21,7 +21,8 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Dispatch"/>
+        <activity android:name=".Dispatch"
+            android:screenOrientation="portrait"/>
         <activity android:name=".DispatchList"/>
         <activity android:name=".GRNapproval" />
         <activity android:name=".DispencerList" />

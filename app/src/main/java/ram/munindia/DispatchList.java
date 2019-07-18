@@ -113,6 +113,7 @@ public class DispatchList extends AppCompatActivity implements View.OnClickListe
                                                         list.removeAll(list);
                                                         getList();
 
+
                                                     }
                                                     if (position == 0) {
                                                         li.setVisibility(View.GONE);
@@ -154,7 +155,7 @@ public class DispatchList extends AppCompatActivity implements View.OnClickListe
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + ss.getString("access_token", ""))
                // .url("http://www.amock.io/api/sriramvarma/saleslistdata")
-               .url(Login.web+"index.php?r=restapi/api/get-sale-order-detials")
+               .url(Login.web+"index.php?r=restapi/api/get-sale-order-details")
                 .get()
                 .build();
 
@@ -259,7 +260,7 @@ public class DispatchList extends AppCompatActivity implements View.OnClickListe
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + ss.getString("access_token", ""))
                 //.url("http://www.amock.io/api/sriramvarma/saleorderitems")
-                 .url(Login.web+"index.php?r=restapi/api/get-sale-order-item-detials")
+                 .url(Login.web+"index.php?r=restapi/api/get-sale-order-item-details")
                 .post(formBody)
                 .build();
 

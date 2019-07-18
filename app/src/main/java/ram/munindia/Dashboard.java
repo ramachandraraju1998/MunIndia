@@ -31,7 +31,6 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
                     requestPermissions(new String[]{Manifest.permission.CAMERA},
                             0);
                 }
-
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant
 
