@@ -83,11 +83,15 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
         switch (v.getId()) {
             case R.id.grnapproval:
                 Intent grnapproval = new Intent(Dashboard.this,GRNapproval.class);
+                grnapproval.putExtra("from","GRNApproval");
                 startActivity(grnapproval);
                 vibrate();
 
                 break;
             case R.id.rmdashboard:
+                Intent rmdashboard = new Intent(Dashboard.this,GRNapproval.class);
+                rmdashboard.putExtra("from","RMDashboard");
+                startActivity(rmdashboard);
                 vibrate();
 
                 break;
@@ -116,6 +120,11 @@ CardView grnapproval,rmdashboard,btweighing,rmlocation,scaninput,fgloaction,fgsc
 
                 break;
             case R.id.fgscan:
+
+                Intent fgdashboard = new Intent(Dashboard.this,GRNapproval.class);
+                fgdashboard.putExtra("from","FGDashboard");
+                startActivity(fgdashboard);
+
                 vibrate();
 
                 break;

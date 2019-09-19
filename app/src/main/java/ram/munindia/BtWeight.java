@@ -171,6 +171,8 @@ CardView cardlayout;
 //                       Login.showDialog(BtWeight.this,"Weight should not be null",true);
 
                    }else{
+                       pd.setMessage("sending data..");
+                       pd.show();
                        done();
                        Toast.makeText(BtWeight.this, "done", Toast.LENGTH_SHORT).show();
                    }
@@ -499,7 +501,6 @@ runOnUiThread(new Runnable() {
                     Toast.makeText(BtWeight.this, "Message", Toast.LENGTH_SHORT).show();
                 }
                 break;
-
 
         }
     }

@@ -2,8 +2,13 @@ package ram.munindia;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,7 +95,7 @@ RecyclerView recyclerview;
         list = new ArrayList<ScanInputModel>();
         recyclerview =findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        recyclerview.setNestedScrollingEnabled(false);
+       recyclerview.setNestedScrollingEnabled(false);
 
         pd = new ProgressDialog(ScanInput.this);
         pd.setMessage("Getting Data...");
@@ -98,8 +103,22 @@ RecyclerView recyclerview;
         pd.setIndeterminate(true);
         pd.setCancelable(false);
         ss = getSharedPreferences("Login", MODE_PRIVATE);
-        mapss();
-        getData();
+
+
+        // check Internet
+        if (Validations.hasActiveInternetConnection(this))
+        {
+            getData();
+            //  Log.d("===========================", "Internet Present");
+        }
+        else
+        {
+            Toast.makeText(ScanInput.this,"Please Check Internet Connection", Toast.LENGTH_LONG).show();
+            //Log.d("===========================", "No Internet");
+            this.registerReceiver(this.mConnReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+
+
 //        barcodedataview=findViewById(R.id.barcodedataview);
 //        sizedataview=findViewById(R.id.sizedataview);
 //        dataview=findViewById(R.id.dataview);
@@ -219,59 +238,6 @@ RecyclerView recyclerview;
     }
 
 
-    private void mapss() {
-
-        // create list one and store values
-
-        List<String> valSetOne = new ArrayList<String>();
-
-        valSetOne.add("Apple");
-
-        valSetOne.add("Aeroplane");
-
-        // create list two and store values
-
-        List<String> valSetTwo = new ArrayList<String>();
-
-        valSetTwo.add("Bat");
-
-        valSetTwo.add("Banana");
-
-        // create list three and store values
-
-        List<String> valSetThree = new ArrayList<String>();
-
-        valSetThree.add("Cat");
-
-        valSetThree.add("Car");
-
-        // put values into map
-
-        map.put("A", valSetOne);
-
-        map.put("B", valSetTwo);
-
-        map.put("C", valSetThree);
-
-        // iterate and display values
-
-        System.out.println("Fetching Keys and corresponding [Multiple] Values n");
-        Toast.makeText(ScanInput.this,map.entrySet().toString(),Toast.LENGTH_LONG).show();
-        System.out.println(map.entrySet());
-
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-
-            String key = entry.getKey();
-
-            List<String> values = entry.getValue();
-
-            System.out.println("Key = " + key);
-
-            System.out.println("Values = " + values + "n");
-
-        }
-
-    }
 
 
     @Override
@@ -311,8 +277,7 @@ String sd=barcodenumberscaninput.getText().toString().trim();
                             @Override
                             public void onClick(View v) {
 
-                                dataviewerlayout.setVisibility(View.VISIBLE);
-
+                            //    dataviewerlayout.setVisibility(View.VISIBLE);
 
                                 barcodeScan();
 
@@ -381,18 +346,38 @@ String sd=barcodenumberscaninput.getText().toString().trim();
                 break;
 
             case R.id.done_img:
-
-     data.clear();
                 data=new ArrayList<>();
+     data.clear();
+
 for(int i = 0;i<list.size();i++){
 
 data.add(list.get(i).getId());
 
 }
 if(list.size()!=0) {
-    done();
-}else{
+    if(shift.getSelectedItemPosition()!=0) {
+        if(line.getSelectedItemPosition()!=0) {
+            if(employee.getSelectedItemPosition()!=0) {
+                if(barcodetype.getSelectedItemPosition()!=0) {
 
+                   done();
+                }else{
+                    Login.alert("Please select Barcode Type",ScanInput.this);
+                }
+            }else{
+                Login.alert("Please select Employe",ScanInput.this);
+            }
+        }else{
+            Login.alert("Please select Line",ScanInput.this);
+        }
+
+    }else {
+
+        Login.alert("Please select Shitft",ScanInput.this);
+    }
+
+}else{
+    Toast.makeText(ScanInput.this,"No data",Toast.LENGTH_SHORT).show();
 }
                 // done();
                 break;
@@ -637,6 +622,11 @@ if(list.size()!=0) {
                                 @Override
                                 public void run() {
                                     Toast.makeText(ScanInput.this,"Failed",Toast.LENGTH_SHORT).show();
+                                    try {
+                                        Login.alert(obj.getString("msg"),ScanInput.this);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     // Login.showDialog(ScanInput.this,"Failed",false);
                                     barcodenumberscaninput.setText("");
                                 }
@@ -654,8 +644,6 @@ if(list.size()!=0) {
             }
         });
 
-
-
     }
 
     private void done() {
@@ -664,6 +652,7 @@ if(list.size()!=0) {
 
         OkHttpClient client = new OkHttpClient();
 
+        Log.d("datadata", String.valueOf(data));
         RequestBody formBody = new FormBody.Builder()
                 .add("date", date.getText().toString())
                 .add("shift", String.valueOf(getKeyFromValue(shiftmap,shift.getSelectedItem().toString())))
@@ -683,7 +672,6 @@ if(list.size()!=0) {
                 .post(formBody)
                 .build();
 
-
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
@@ -696,7 +684,6 @@ if(list.size()!=0) {
                         barcodenumberscaninput.setText("");
                         // Stuff that updates the UI
                         Toast.makeText(ScanInput.this,"Please try again server busy at this moment", Toast.LENGTH_LONG).show();
-
                     }
                 });
             }
@@ -705,14 +692,14 @@ if(list.size()!=0) {
             public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
                 //  pd.dismiss();
                 if (!response.isSuccessful()) {
-                    barcodenumberscaninput.setText("");
-                    pd.dismiss();
+
                     Log.d("result", response.toString());
                     System.out.println("token="+ ss.getString("access_token", ""));
                     System.out.println("responce="+response.toString());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            barcodenumberscaninput.setText("");
                             pd.dismiss();
                             Toast.makeText(ScanInput.this, "No Responce", Toast.LENGTH_SHORT).show();
 
@@ -720,7 +707,6 @@ if(list.size()!=0) {
                     });
                     throw new IOException("Unexpected code " + response);
                 } else {
-
                     pd.dismiss();
                     Log.d("result", response.toString());
                     String responseBody = response.body().string();
@@ -729,16 +715,21 @@ if(list.size()!=0) {
                     final JSONObject obj;
                     try {
                         obj= new JSONObject(responseBody);
-                        if(obj.getString("status").equals("true")){
-
+                        if(obj.getString("Success").equals("true")){
 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    list.clear();
+                                    adapter.notifyDataSetChanged();
+                                    if(list.isEmpty()) {
+                                        total.setText("Total=0");
+                                        barcodenumberscaninput.setText("");
+                                    }
 
+                                Login.showDialog(ScanInput.this,"Success",true);
 
-                                    Toast.makeText(ScanInput.this,"Success",Toast.LENGTH_SHORT).show();
-
+                                  //  Toast.makeText(ScanInput.this,"Success",Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -750,26 +741,65 @@ if(list.size()!=0) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(ScanInput.this,"Failed",Toast.LENGTH_SHORT).show();
+                                   Toast.makeText(ScanInput.this,"Failed",Toast.LENGTH_SHORT).show();
+                                  //  Login.showDialog(ScanInput.this,"Failed",false);
+                                    try {
+                                        Login.alert(obj.getString("msg"),ScanInput.this);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     // Login.showDialog(ScanInput.this,"Failed",false);
-                                    barcodenumberscaninput.setText("");
+                                   // barcodenumberscaninput.setText("");
                                 }
                             });
 
                         }
 
                     } catch (JSONException e) {
-                        barcodenumberscaninput.setText("");
-                        pd.dismiss();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pd.dismiss();
+                                barcodenumberscaninput.setText("");
+                            }
+                        });
+
+
                         e.printStackTrace();
                     }
                 }
             }
         });
 
-
     }
 
+
+    private BroadcastReceiver mConnReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
+            boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+            String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+            boolean isFailover = intent.getBooleanExtra(ConnectivityManager.EXTRA_IS_FAILOVER, false);
+
+            NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+            NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
+
+            if (currentNetworkInfo.isConnected())
+            {
+                // Log.d("===========================", "Connected");
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getApplicationContext(), "Connected",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                //  Log.d("===========================", "Not Connected");
+                Toast.makeText(getApplicationContext(), "internet Not Connected",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
     public static Object getKeyFromValue(Map hm, Object value) {
         for (Object o : hm.keySet()) {
@@ -780,4 +810,8 @@ if(list.size()!=0) {
         return null;
     }
 
+
+
 }
+
+

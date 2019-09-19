@@ -29,7 +29,7 @@ public class RmLocation extends AppCompatActivity implements View.OnClickListene
     static  EditText locationbarcodenumber,cartonbarcodenumber;
 
 //for checking last value while restarting
-    String firstlastdata="null",secondlastdate="null";
+   static String firstlastdata="null",secondlastdate="null";
     Boolean fstretrn=false,secretrn=false;
     String locationid="null",locationsallowable="null";
 
@@ -114,7 +114,6 @@ public class RmLocation extends AppCompatActivity implements View.OnClickListene
         RequestBody formBody = new FormBody.Builder()
                 .add("location", locationbarcodenumber.getText().toString().trim())
 
-
                 .build();
 
         Request request = new Request.Builder()
@@ -198,6 +197,13 @@ public class RmLocation extends AppCompatActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
+                                    try {
+                                        Login.alert(obj.getString("msg"),RmLocation.this);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                     locationbarcodenumber.setText("");
                                     cartonbarcodenumber.setText("");
                                     locationid="null";
@@ -309,6 +315,7 @@ public class RmLocation extends AppCompatActivity implements View.OnClickListene
                                 @Override
                                 public void run() {
                                    // Login.showDialog(RmLocation.this,"Failed",false);
+
                                     cartonbarcodenumber.setText("");
                                 }
                             });

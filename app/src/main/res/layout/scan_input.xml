@@ -46,9 +46,10 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
       >
         <LinearLayout
             android:id="@+id/listdata"
@@ -166,12 +167,7 @@
                 android:background="@drawable/border"
                 android:src="@drawable/scan" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/dataviewerlayout"
-    android:visibility="visible">
+
 
 
     <TextView
@@ -181,7 +177,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="55dp"
         android:gravity="end"
-        android:text="TOTAL="
+        android:text="TOTAL=0"
         android:textColor="@color/black"
         android:textSize="16dp" />
 
@@ -194,12 +190,11 @@
     </android.support.v7.widget.RecyclerView>
 
 
-    </LinearLayout>
  </LinearLayout>
 
 
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
 

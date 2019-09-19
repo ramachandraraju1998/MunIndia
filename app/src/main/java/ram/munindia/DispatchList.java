@@ -1,7 +1,13 @@
 package ram.munindia;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +38,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import ram.munindia.ModalandAdatpters.DispatchAdapter;
 import ram.munindia.ModalandAdatpters.DispatchModel;
+import ram.munindia.validations.Validations;
 
 public class DispatchList extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,7 +69,7 @@ public class DispatchList extends AppCompatActivity implements View.OnClickListe
      //   li.setVisibility(View.VISIBLE);
 
         ss = getSharedPreferences("Login", MODE_PRIVATE);
-        list = new ArrayList<DispatchModel>();
+            list = new ArrayList<DispatchModel>();
 
         myimage_back=findViewById(R.id.myimage_back);
         done_img=findViewById(R.id.done_img);
@@ -80,8 +87,20 @@ public class DispatchList extends AppCompatActivity implements View.OnClickListe
 
         //spinner data
  salesdata= new ArrayList<>();
-            saledatalist();
+
         salesdata.add("select sales Order");
+        // check Internet
+        if (Validations.hasActiveInternetConnection(this))
+        {
+            saledatalist();
+            //  Log.d("===========================", "Internet Present");
+        }
+        else
+        {
+            Toast.makeText(DispatchList.this,"Please Check Internet Connection", Toast.LENGTH_LONG).show();
+            //Log.d("===========================", "No Internet");
+            this.registerReceiver(this.mConnReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
 //        salesdata.add("SAL-10101");
 //        salesdata.add("SAL-10120");
 
@@ -377,6 +396,34 @@ public class DispatchList extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+
+    private BroadcastReceiver mConnReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
+            boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+            String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+            boolean isFailover = intent.getBooleanExtra(ConnectivityManager.EXTRA_IS_FAILOVER, false);
+
+            NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+            NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
+
+            if (currentNetworkInfo.isConnected())
+            {
+                // Log.d("===========================", "Connected");
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getApplicationContext(), "Connected",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                //  Log.d("===========================", "Not Connected");
+                Toast.makeText(getApplicationContext(), "internet Not Connected",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
 
     public static Object getKeyFromValue(Map hm, Object value) {

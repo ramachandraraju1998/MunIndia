@@ -2,9 +2,16 @@ package ram.munindia;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,7 +95,18 @@ String code;
         salesdata= new ArrayList<>();
 
         salesdata.add("select sales Order");
-        saledatalist();
+
+        if (Validations.hasActiveInternetConnection(this))
+        {
+            saledatalist();
+            //  Log.d("===========================", "Internet Present");
+        }
+        else
+        {
+            Toast.makeText(Dispatch.this,"Please Check Internet Connection", Toast.LENGTH_LONG).show();
+            //Log.d("===========================", "No Internet");
+            this.registerReceiver(this.mConnReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
 //        salesdata.add("SAL-10101");
 //        salesdata.add("SAL-10120");
 
@@ -112,6 +130,9 @@ String code;
                             barcodescaned.clear();
                             idlist.clear();
 
+                    barcodedataview.setText("");
+                    sizedataview.setText("");
+                    dataview.setText("");
                 }
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
@@ -197,11 +218,23 @@ String code;
                 break;
             case R.id.done_img:
                 // done();
-                saleslist.setEnabled(true);
-                saleslist.setClickable(true);
-             //   barcodescaned.clear();
-                //idlist.clear();
-                done();
+if(saleslist.getSelectedItemPosition()!=0 && !barcodescaned.isEmpty()){
+                new AlertDialog.Builder(this)
+
+                        .setMessage("Do you want to dispatch "+saleslist.getSelectedItem())
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                done();
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                }
+
                 break;
 
             case R.id.scannerinput:
@@ -281,6 +314,8 @@ String code;
                         obj= new JSONObject(responseBody);
                         if(obj.getString("Success").equals("true")){
 
+
+
                             JSONArray Saleorderlist=obj.getJSONArray("Saleorderlist");
                             for(int i=0;i<Saleorderlist.length();i++){
                                 JSONObject jobj=Saleorderlist.getJSONObject(i);
@@ -306,7 +341,6 @@ String code;
                                 @Override
                                 public void run() {
                                     // Login.showDialog(ScanInput.this,"Failed",false);
-
                                     Toast.makeText(Dispatch.this,"Failed",Toast.LENGTH_SHORT).show();
 
                                 }
@@ -327,11 +361,13 @@ private void getData(){
     pd.show();
 
     OkHttpClient client = new OkHttpClient();
-
+    code=dispatchbarcodenumber.getText().toString().trim();
     RequestBody formBody = new FormBody.Builder()
-            .add("barcode", dispatchbarcodenumber.getText().toString().trim())
+            .add("barcode",code)
+            .add("saleorder",String.valueOf(getKeyFromValue(saleordeermap,saleslist.getSelectedItem())))
             .build();
-code=dispatchbarcodenumber.getText().toString().trim();
+    Log.d("saleorder=",String.valueOf(getKeyFromValue(saleordeermap,saleslist.getSelectedItem())));
+
 System.out.println("ccode="+code);
     Request request = new Request.Builder()
             .header("Accept", "application/json")
@@ -386,14 +422,15 @@ System.out.println("ccode="+code);
                     if(obj.getString("Success").equals("true")){
 
                        JSONObject checkstock= obj.getJSONObject("checkstock");
-                        JSONArray dispatchlistdata=obj.getJSONArray("dispatchlistdata");
+                       JSONObject dispatchlistdata= obj.getJSONObject("dispatchlistdata");
 
-                        JSONObject jsonObject = dispatchlistdata.getJSONObject(0);
 
-                       if(!barcodescaned.contains(dispatchbarcodenumber.getText().toString().trim())) {
+
+
+                       if(!barcodescaned.contains(code)) {
 
                            String add=dispatchbarcodenumber.getText().toString().trim();
-                           barcodescaned.add(add);
+                           barcodescaned.add(code);
                            Log.d("added",add);
 
                            bar = bar + checkstock.getString("barcode_no") + "\n";
@@ -407,7 +444,7 @@ System.out.println("ccode="+code);
 
 
 
-                           idlist.add(jsonObject.getString("id"));
+                           idlist.add(dispatchlistdata.getString("id"));
                            runOnUiThread(new Runnable() {
                                @Override
                                public void run() {
@@ -415,7 +452,8 @@ System.out.println("ccode="+code);
                                    sizedataview.setText(size);
                                    dataview.setText(data);
 
-
+//                                   System.out.println("barcodescaned="+barcodescaned);
+                                   Log.d("barcodescaned=", String.valueOf(barcodescaned));
                                }
                            });
 
@@ -437,10 +475,11 @@ System.out.println("ccode="+code);
                                 // Login.showDialog(ScanInput.this,"Failed",false);
                                 try {
                                     Login.showDialog(Dispatch.this,obj.getString("msg"),false);
+                                    if(barcodescaned.isEmpty()){     dataviewerlayout.setVisibility(View.GONE);   }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(Dispatch.this,"Failed",Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(Dispatch.this,"Failed",Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -457,6 +496,8 @@ System.out.println("ccode="+code);
 }
 
     private void done() {
+
+
 
         pd.show();
 
@@ -508,17 +549,39 @@ System.out.println("ccode="+code);
                             Toast.makeText(Dispatch.this, "No Responce", Toast.LENGTH_LONG).show();
                         }
                     });
+                    Log.d("result=", response.toString());
                     throw new IOException("Unexpected code " + response);
                 } else {
 
+
                     pd.dismiss();
-                    Log.d("result", response.toString());
+                    Log.d("result=", response.toString());
                     String responseBody = response.body().string();
+                    Log.d("responcebody=", responseBody);
                     final JSONObject obj;
+
                     try {
                         obj= new JSONObject(responseBody);
                         if(obj.getString("Success").equals("true")){
 
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Login.showDialog(ScanInput.this,"Failed",false);
+                                    saleslist.setEnabled(true);
+                                    saleslist.setClickable(true);
+                                    barcodescaned.clear();
+                                    idlist.clear();
+                                    bar="";size="";data="";
+                                    dataviewerlayout.setVisibility(View.GONE);
+                                    barcodedataview.setText("");
+                                    sizedataview.setText("");
+                                    dataview.setText("");
+                                   // Toast.makeText(Dispatch.this,"Success",Toast.LENGTH_SHORT).show();
+                                    Login.showDialog(Dispatch.this,"Success",true);
+                                }
+                            });
 
                         }else{
 
@@ -526,8 +589,13 @@ System.out.println("ccode="+code);
                                 @Override
                                 public void run() {
                                     // Login.showDialog(ScanInput.this,"Failed",false);
+                                    try {
 
-                                    Toast.makeText(Dispatch.this,"Failed",Toast.LENGTH_SHORT).show();
+                                        Login.showDialog(Dispatch.this,obj.getString("msg"),false);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //Toast.makeText(Dispatch.this,"Failed",Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -544,6 +612,32 @@ System.out.println("ccode="+code);
 
     }
 
+    private BroadcastReceiver mConnReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
+            boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+            String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+            boolean isFailover = intent.getBooleanExtra(ConnectivityManager.EXTRA_IS_FAILOVER, false);
+
+            NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+            NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
+
+            if (currentNetworkInfo.isConnected())
+            {
+                // Log.d("===========================", "Connected");
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getApplicationContext(), "Connected",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                //  Log.d("===========================", "Not Connected");
+                Toast.makeText(getApplicationContext(), "internet Not Connected",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
     public static Object getKeyFromValue(Map hm, Object value) {
         for (Object o : hm.keySet()) {
@@ -553,4 +647,5 @@ System.out.println("ccode="+code);
         }
         return null;
     }
+
 }

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    static String url="http://demo.schemaxtech.in/mun_india/web/";
+    static String url="http://www.schemaxtech.in/mun_india/web/";
 
 TextView tv;
     @Override

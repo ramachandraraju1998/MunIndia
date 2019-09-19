@@ -29,7 +29,7 @@ public class FgLocation extends AppCompatActivity implements View.OnClickListene
     static EditText fglocationbarcodenumber,fgcartonbarcodenumber;
 
     //for checking last value while restarting
-    String firstlastdata="null",secondlastdate="null";
+   static String firstlastdata="null",secondlastdate="null";
 
     String locationid="null",locationsallowable="null";
 
@@ -215,23 +215,25 @@ public class FgLocation extends AppCompatActivity implements View.OnClickListene
                     final JSONObject obj;
                     try {
                         obj = new JSONObject(responseBody);
-                        if (obj.getString("success").equals("true")) {
-                            // fstretrn=true;
-                            firstlastdata = fglocationbarcodenumber.getText().toString().trim();
-
-                            locationid=obj.getString("locationid");
-                            locationsallowable=obj.getString("locationsallowable");
 
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(FgLocation.this,"Success",Toast.LENGTH_SHORT).show();
-                                    //
-                                    //  pd.dismiss();
-                                    //  Login.showDialog(RmLocation.this, "Success", true);
-                                }
-                            });
+                            if(obj.getString("locationsallowable")!="0") {
+                                // fstretrn=true;
+                                firstlastdata = fglocationbarcodenumber.getText().toString().trim();
+
+                                locationid = obj.getString("locationid");
+                                locationsallowable = obj.getString("locationsallowable");
+
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(FgLocation.this, "Success", Toast.LENGTH_SHORT).show();
+                                        //
+                                        //  pd.dismiss();
+                                        //  Login.showDialog(RmLocation.this, "Success", true);
+                                    }
+                                });
 
 
                         } else {
@@ -239,6 +241,11 @@ public class FgLocation extends AppCompatActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    try {
+                                        Login.alert(obj.getString("msg"),FgLocation.this);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     fglocationbarcodenumber.setText("");
                                     fgcartonbarcodenumber.setText("");
                                     locationid="null";
@@ -354,6 +361,7 @@ public class FgLocation extends AppCompatActivity implements View.OnClickListene
                                 @Override
                                 public void run() {
                                     // Login.showDialog(RmLocation.this,"Failed",false);
+
                                     fgcartonbarcodenumber.setText("");
                                 }
                             });

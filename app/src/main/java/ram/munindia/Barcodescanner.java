@@ -95,28 +95,32 @@ if(click.equals("scanning_qrcode")) {
 
 }else if(click.equals("locationbarcodescan")){
     RmLocation.locationbarcodenumber.setText(result.getContents());
-
+    RmLocation.firstlastdata="null";
 
 }else if(click.equals("cartonbarcodescan")){
     RmLocation.cartonbarcodenumber.setText(result.getContents());
+    RmLocation.secondlastdate="null";
 
 }else if(click.equals("scannerinput")){
     ScanInput.barcodenumberscaninput.setText(result.getContents());
 
 }else if(click.equals("fglocationbarcodescan")){
-    FgLocation.fglocationbarcodenumber.setText(result.getContents());
 
+    FgLocation.fglocationbarcodenumber.setText(result.getContents());
+    FgLocation.firstlastdata="null";
 
 }else if(click.equals("fgcartonbarcodescan")){
+
     FgLocation.fgcartonbarcodenumber.setText(result.getContents());
+    FgLocation.secondlastdate="null";
 
 }else if(click.equals("dislocationbarcodescan")){
     DispencerList.dislocationbarcodenumber.setText(result.getContents());
-
+    DispencerList.firstlastdata="null";
 
 }else if(click.equals("discartonbarcodescan")){
     DispencerList.discartonbarcodenumber.setText(result.getContents());
-
+    DispencerList.secondlastdate="null";
 }else if(click.equals("dispatch")){
     Dispatch.dispatchbarcodenumber.setText(result.getContents());
 
@@ -130,8 +134,6 @@ if(click.equals("scanning_qrcode")) {
         // If you would like to resume scanning, call this method below:
         //mScannerView.resumeCameraPreview(this);
     }
-
-
 
 
     }

@@ -31,14 +31,14 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
     OkHttpClient client;
     SharedPreferences ss;
     ProgressDialog pd;
-    String firstlastdata="null",secondlastdate="null";
+   static String firstlastdata="null",secondlastdate="null";
     String locationid="null",locationsallowable="null";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dispencer_list);
-
+        ss = getSharedPreferences("Login", MODE_PRIVATE);
         client = new OkHttpClient();
 
         pd = new ProgressDialog(DispencerList.this);
@@ -95,7 +95,7 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
 
                 if(!TextUtils.isEmpty(dislocationbarcodenumber.getText().toString().trim())) {
                     if (!TextUtils.isEmpty(discartonbarcodenumber.getText().toString().trim())) {
-                        Toast.makeText(DispencerList.this,"done",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(DispencerList.this,"done",Toast.LENGTH_SHORT).show();
                         done();
                     }else{
                         Login.alert("Please Scan Carton Barcode",this);
@@ -214,12 +214,12 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                     final JSONObject obj;
                     try {
                         obj = new JSONObject(responseBody);
-                        if (obj.getString("success").equals("true")) {
+                        if (obj.getString("Success").equals("true")) {
                             // fstretrn=true;
                             firstlastdata = dislocationbarcodenumber.getText().toString().trim();
 
                             locationid=obj.getString("locationid");
-                            locationsallowable=obj.getString("locationsallowable");
+                            locationsallowable=obj.getString("max_allowable");
 
 
                             runOnUiThread(new Runnable() {
@@ -238,6 +238,13 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
+                                    try {
+                                        Login.alert(obj.getString("msg"),DispencerList.this);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                     dislocationbarcodenumber.setText("");
                                     discartonbarcodenumber.setText("");
                                     locationid="null";
@@ -255,11 +262,17 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
 
 
                     } catch (JSONException e) {
-                        dislocationbarcodenumber.setText("");
-                        discartonbarcodenumber.setText("");
-                        locationid="null";
-                        locationsallowable="null";
-                        pd.dismiss();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dislocationbarcodenumber.setText("");
+                                discartonbarcodenumber.setText("");
+                                locationid="null";
+                                locationsallowable="null";
+                                pd.dismiss();
+                            }
+                        });
+
 
                         e.printStackTrace();
                     }
@@ -285,7 +298,7 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + ss.getString("access_token", ""))
-                .url(Login.web+"index.php?r=restapi/api/get-pm-detials")
+                .url(Login.web+"index.php?r=restapi/api/get-pm-details")
                 .post(formBody)
                 .build();
 
@@ -314,7 +327,8 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
 
                 //  pd.dismiss();
                 if (!response.isSuccessful()) {
-                    discartonbarcodenumber.setText("");
+
+
 
                     Log.d("result", response.toString());
                     System.out.println("token="+ ss.getString("access_token", ""));
@@ -322,6 +336,7 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            discartonbarcodenumber.setText("");
                             pd.dismiss();
                             Toast.makeText(DispencerList.this, "No Responce", Toast.LENGTH_LONG).show();
                         }
@@ -336,13 +351,13 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                     final JSONObject obj;
                     try {
                         obj= new JSONObject(responseBody);
-                        if(obj.getString("success").equals("true")){
+                        if(obj.getString("Success").equals("true")){
                             secondlastdate=discartonbarcodenumber.getText().toString().trim();
-
 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     Toast.makeText(DispencerList.this,"Success",Toast.LENGTH_SHORT).show();
                                     // Login.showDialog(RmLocation.this,"Success",true);
                                 }
@@ -355,6 +370,11 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    try {
+                                        Login.alert(obj.getString("msg"),DispencerList.this);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     // Login.showDialog(RmLocation.this,"Failed",false);
                                     discartonbarcodenumber.setText("");
                                 }
@@ -365,8 +385,15 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
 
 
                     } catch (JSONException e) {
-                        pd.dismiss();
-                        discartonbarcodenumber.setText("");
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pd.dismiss();
+                                // Login.showDialog(RmLocation.this,"Failed",false);
+                                discartonbarcodenumber.setText("");
+                            }
+                        });
                         e.printStackTrace();
                     }
                 }
@@ -434,7 +461,7 @@ public class DispencerList extends AppCompatActivity implements View.OnClickList
                     final JSONObject obj;
                     try {
                         obj= new JSONObject(responseBody);
-                        if(obj.getString("success").equals("true")){
+                        if(obj.getString("Success").equals("true")){
 
 
                             runOnUiThread(new Runnable() {
